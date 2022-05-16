@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>567</width>
+    <height>366</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>567</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuArchivo">
+    <property name="title">
+     <string>Archivo</string>
+    </property>
+    <addaction name="actionAbrir_bmp"/>
+    <addaction name="actionGuardar_bmp"/>
+    <addaction name="actionCrear_canvas"/>
+   </widget>
+   <widget class="QMenu" name="menuFiguras">
+    <property name="title">
+     <string>Figuras</string>
+    </property>
+    <addaction name="actionCirculo"/>
+    <addaction name="actionTriangulo"/>
+    <addaction name="actionRectangulo"/>
+   </widget>
+   <widget class="QMenu" name="menuFiltros">
+    <property name="title">
+     <string>Filtros</string>
+    </property>
+    <addaction name="actionFIltro1"/>
+    <addaction name="actionFiltro2"/>
+    <addaction name="actionFiltro3"/>
+   </widget>
+   <addaction name="menuArchivo"/>
+   <addaction name="menuFiguras"/>
+   <addaction name="menuFiltros"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionLapiz"/>
+   <addaction name="actionLapicero"/>
+   <addaction name="actionBorrador"/>
+   <addaction name="actionRotar_90"/>
+   <addaction name="actionRotar_180"/>
+   <addaction name="actionDeshacer"/>
+   <addaction name="actionRehacer"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionAbrir_bmp">
+   <property name="icon">
+    <iconset resource="iconos.qrc">
+     <normaloff>:/iconos/imagenes/abrir.png</normaloff>:/iconos/imagenes/abrir.png</iconset>
+   </property>
+   <property name="text">
+    <string>Abrir .bmp</string>
+   </property>
+  </action>
+  <action name="actionGuardar_bmp">
+   <property name="icon">
+    <iconset resource="iconos.qrc">
+     <normaloff>:/iconos/imagenes/guardar.png</normaloff>:/iconos/imagenes/guardar.png</iconset>
+   </property>
+   <property name="text">
+    <string>Guardar .bmp</string>
+   </property>
+  </action>
+  <action name="actionCrear_canvas">
+   <property name="icon">
+    <iconset resource="iconos.qrc">
+     <normaloff>:/iconos/imagenes/nuevoCanvas.png</normaloff>:/iconos/imagenes/nuevoCanvas.png</iconset>
+   </property>
+   <property name="text">
+    <string>Crear canvas</string>
+   </property>
+  </action>
+  <action name="actionLapiz">
+   <property name="icon">
+    <iconset resource="iconos.qrc">
+     <normaloff>:/iconos/imagenes/lapiz.png</normaloff>:/iconos/imagenes/lapiz.png</iconset>
+   </property>
+   <property name="text">
+    <string>Lapiz</string>
+   </property>
+  </action>
+  <action name="actionLapicero">
+   <property name="icon">
+    <iconset resource="iconos.qrc">
+     <normaloff>:/iconos/imagenes/lapicero.png</normaloff>:/iconos/imagenes/lapicero.png</iconset>
+   </property>
+   <property name="text">
+    <string>Lapicero</string>
+   </property>
+  </action>
+  <action name="actionBorrador">
+   <property name="icon">
+    <iconset resource="iconos.qrc">
+     <normaloff>:/iconos/imagenes/borrador.png</normaloff>:/iconos/imagenes/borrador.png</iconset>
+   </property>
+   <property name="text">
+    <string>Borrador</string>
+   </property>
+  </action>
+  <action name="actionRotar_90">
+   <property name="icon">
+    <iconset resource="iconos.qrc">
+     <normaloff>:/iconos/imagenes/rotar90.png</normaloff>:/iconos/imagenes/rotar90.png</iconset>
+   </property>
+   <property name="text">
+    <string>Rotar 90</string>
+   </property>
+  </action>
+  <action name="actionRotar_180">
+   <property name="icon">
+    <iconset resource="iconos.qrc">
+     <normaloff>:/iconos/imagenes/rotar180.png</normaloff>:/iconos/imagenes/rotar180.png</iconset>
+   </property>
+   <property name="text">
+    <string>Rotar 180</string>
+   </property>
+  </action>
+  <action name="actionDeshacer">
+   <property name="icon">
+    <iconset resource="iconos.qrc">
+     <normaloff>:/iconos/imagenes/undo.png</normaloff>:/iconos/imagenes/undo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Deshacer</string>
+   </property>
+  </action>
+  <action name="actionRehacer">
+   <property name="icon">
+    <iconset resource="iconos.qrc">
+     <normaloff>:/iconos/imagenes/redo.png</normaloff>:/iconos/imagenes/redo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Rehacer</string>
+   </property>
+  </action>
+  <action name="actionCirculo">
+   <property name="icon">
+    <iconset resource="iconos.qrc">
+     <normaloff>:/iconos/imagenes/circulo.png</normaloff>:/iconos/imagenes/circulo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Circulo</string>
+   </property>
+  </action>
+  <action name="actionTriangulo">
+   <property name="icon">
+    <iconset resource="iconos.qrc">
+     <normaloff>:/iconos/imagenes/triangulo.png</normaloff>:/iconos/imagenes/triangulo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Triangulo</string>
+   </property>
+  </action>
+  <action name="actionRectangulo">
+   <property name="text">
+    <string>Rectangulo</string>
+   </property>
+  </action>
+  <action name="actionFIltro1">
+   <property name="text">
+    <string>FIltro1</string>
+   </property>
+  </action>
+  <action name="actionFiltro2">
+   <property name="text">
+    <string>Filtro2</string>
+   </property>
+  </action>
+  <action name="actionFiltro3">
+   <property name="text">
+    <string>Filtro3</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="iconos.qrc"/>
+ </resources>
+ <connections/>
+</ui>
