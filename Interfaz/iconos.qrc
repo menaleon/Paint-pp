@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/iconos">
+        <file>imagenes/abrir.png</file>
+        <file>imagenes/borrador.png</file>
+        <file>imagenes/circulo.png</file>
+        <file>imagenes/guardar.png</file>
+        <file>imagenes/lapicero.png</file>
+        <file>imagenes/lapiz.png</file>
+        <file>imagenes/nuevoCanvas.png</file>
+        <file>imagenes/redo.png</file>
+        <file>imagenes/rotar90.png</file>
+        <file>imagenes/rotar180.png</file>
+        <file>imagenes/salir.png</file>
+        <file>imagenes/triangulo.png</file>
+        <file>imagenes/undo.png</file>
+    </qresource>
+</RCC>
