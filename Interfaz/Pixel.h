@@ -1,6 +1,5 @@
-
-#ifndef PRUEBABMP_PIXEL_H
-#define PRUEBABMP_PIXEL_H
+#ifndef PIXEL_H
+#define PIXEL_H
 
 
 #include <cstdint>
@@ -8,17 +7,17 @@
 class Pixel {
 
 private:
-    uint8_t R;
-    uint8_t G;
-    uint8_t B;
-    uint8_t A;
-public:
+    uint8_t R=0;
+    uint8_t G=0;
+    uint8_t B=0;
+    uint8_t A=0;
 
+public:
     Pixel(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha){
-        red=R;
-        green=G;
-        blue=B;
-        alpha=A;
+        R=red;
+        G=green;
+        B=blue;
+        A=alpha;
     }
     int getR(){
         return R;
@@ -32,6 +31,20 @@ public:
     int getA(){
         return A;
     }
+
+    void setR(int red){
+            R = red;
+        }
+    void setG(int green){
+            G = green;
+        }
+    void setB(int blue){
+            B = blue;
+        }
+    void setA(int alpha){
+            A = alpha;
+        }
+
     /*
     int* getRGBA(){
         int arrayRGBA[4]={R,G,B,A};
