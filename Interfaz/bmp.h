@@ -212,6 +212,51 @@ struct BMP {
         }
     }
 
+    uint8_t get_pixelR(uint32_t x0, uint32_t y0) {
+            if (x0 >= (uint32_t)bmp_info_header.width || y0 >= (uint32_t)bmp_info_header.height || x0 < 0 || y0 < 0) {
+                throw std::runtime_error("The point is outside the image boundaries!");
+            }
+            uint32_t channels = bmp_info_header.bit_count / 8;
+            return data[channels * (y0 * bmp_info_header.width + x0) + 2];
+        }
+
+        uint8_t get_pixelG(uint32_t x0, uint32_t y0) {
+            if (x0 >= (uint32_t)bmp_info_header.width || y0 >= (uint32_t)bmp_info_header.height || x0 < 0 || y0 < 0) {
+                throw std::runtime_error("The point is outside the image boundaries!");
+            }
+            uint32_t channels = bmp_info_header.bit_count / 8;
+            return data[channels * (y0 * bmp_info_header.width + x0) + 1];
+        }
+
+        uint8_t get_pixelB(uint32_t x0, uint32_t y0) {
+            if (x0 >= (uint32_t)bmp_info_header.width || y0 >= (uint32_t)bmp_info_header.height || x0 < 0 || y0 < 0) {
+                throw std::runtime_error("The point is outside the image boundaries!");
+            }
+            uint32_t channels = bmp_info_header.bit_count / 8;
+            return data[channels * (y0 * bmp_info_header.width + x0) + 0];
+        }
+
+        uint8_t get_pixelA(uint32_t x0, uint32_t y0) {
+            if (x0 >= (uint32_t)bmp_info_header.width || y0 >= (uint32_t)bmp_info_header.height || x0 < 0 || y0 < 0) {
+                throw std::runtime_error("The point is outside the image boundaries!");
+            }
+            uint32_t channels = bmp_info_header.bit_count / 8;
+            if (channels == 4) {
+                return data[channels * (y0 * bmp_info_header.width + x0) + 3];
+            }
+            else{
+                return 255;
+            }
+        }
+
+        uint32_t get_height() {
+                return bmp_info_header.height;
+            }
+
+            uint32_t get_width() {
+                return bmp_info_header.width;
+            }
+
     void draw_rectangle(uint32_t x0, uint32_t y0, uint32_t w, uint32_t h,
                         uint8_t B, uint8_t G, uint8_t R, uint8_t A, uint8_t line_w) {
         if (x0 + w > (uint32_t)bmp_info_header.width || y0 + h > (uint32_t)bmp_info_header.height) {
