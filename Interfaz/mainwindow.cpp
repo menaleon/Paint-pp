@@ -5,7 +5,6 @@
 #include <Pixel.h>
 #include <bmp.h>
 
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -58,17 +57,6 @@ void MainWindow::on_boton_crear_clicked()
     ui->label_canvas->setText("Soy un canvas (label gigante)");
     ui->label_canvas->setStyleSheet("QLabel { background-color : lightblue; color : black; }");
     pMatrix = new PixelMatrix(ancho, alto);
-
-    //obtener datos de los pixeles y guardarlos en un pixArray
-
-    int i = 0;
-    for(int n=0;n<101;n++){
-
-        anchoPointsToDraw[i]=n;
-        altoPointsToDraw[i]=n+10;
-        i++;
-
-    }
 
     actualizar = true;
     undo = false;
@@ -135,6 +123,13 @@ void MainWindow::on_actionFiltro3_triggered()
         pMatrix->applySepiaFilter();
         undo = false;
     }
+/*
+    if (pMatrix != NULL) {
+        pMatrixOld = pMatrix->clone();
+        pMatrix = pMatrix->flipY();
+        undo = false;
+    }
+*/
 }
 
 void MainWindow::on_actionAbrir_bmp_triggered()
@@ -198,6 +193,7 @@ void MainWindow::on_actionDeshacer_triggered()
         pMatrixOld = pMatrix->clone();
         pMatrix = temp->clone();
         undo = true;
+        zoom = false;
     }
 }
 
@@ -207,6 +203,74 @@ void MainWindow::on_actionRehacer_triggered()
         PixelMatrix* temp = pMatrixOld->clone();
         pMatrixOld = pMatrix->clone();
         pMatrix = temp->clone();
+        undo = false;
+    }
+}
+
+void MainWindow::on_actionRotar_90_triggered()
+{
+    if (pMatrix != NULL) {
+        pMatrixOld = pMatrix->clone();
+        pMatrix = pMatrix->rotate90();
+        undo = false;
+    }
+}
+
+void MainWindow::on_actionRectangulo_triggered()
+{
+    if (pMatrix != NULL) {
+        int w = pMatrix->getWidth();
+        int h = pMatrix->getHeight();
+        pMatrixOld = pMatrix->clone();
+
+        Pixel *p = new Pixel(0,0,0,255);
+        int x1 = w/4;
+        int y1 = h/4;
+        int x2 = w*3/4;
+        int y2 = h*3/4;
+        pMatrix->drawLine(x1,y1,x2,y1, *p);
+        pMatrix->drawLine(x1,y1,x1,y2, *p);
+        pMatrix->drawLine(x2,y1,x2,y2, *p);
+        pMatrix->drawLine(x1,y2,x2,y2, *p);
+
+        undo = false;
+    }
+}
+
+void MainWindow::on_actionTriangulo_triggered()
+{
+    if (pMatrix != NULL) {
+        int w = pMatrix->getWidth();
+        int h = pMatrix->getHeight();
+        pMatrixOld = pMatrix->clone();
+        Pixel *p = new Pixel(0,0,0,255);
+        int x1 = w/4;
+        int y1 = h*3/4;
+        int x2 = w/2;
+        int y2 = h/4;
+        int x3 = w*3/4;
+        int y3 = h*3/4;
+        pMatrix->drawLine(x1,y1,x2,y2, *p);
+        pMatrix->drawLine(x2,y2,x3,y3, *p);
+        pMatrix->drawLine(x1,y1,x3,y3, *p);
+        undo = false;
+    }
+}
+
+void MainWindow::on_actionCirculo_triggered()
+{
+    if (pMatrix != NULL) {
+        int w = pMatrix->getWidth();
+        int h = pMatrix->getHeight();
+        pMatrixOld = pMatrix->clone();
+        Pixel *p = new Pixel(0,0,0,255);
+        int x1 = w/2;
+        int y1 = h/2;
+        int r = w/4;
+        if (w>h){
+            r = h/4;
+        }
+        pMatrix->drawCircle(x1,y1,r, *p);
         undo = false;
     }
 }

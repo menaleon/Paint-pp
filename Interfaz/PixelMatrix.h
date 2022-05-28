@@ -3,6 +3,7 @@
 
 #include "Pixel.h"
 #include <stdlib.h>
+#include <math.h>
 
 class PixelMatrix {
 
@@ -40,6 +41,39 @@ PixelMatrix* clone(){
     return pNew;
 }
 
+PixelMatrix* rotate90(){
+    PixelMatrix *pNew = new PixelMatrix(this->getHeight(),this->getWidth());
+    for(int i=0;i<pNew->getHeight();i++){
+      for(int j=0;j<pNew->getWidth();j++){
+          Pixel p = this->getPixel(i,j);
+          pNew->setPixel(pNew->getWidth()-j-1,i,p);
+      }
+    }
+    return pNew;
+}
+
+PixelMatrix* flipX(){
+    PixelMatrix *pNew = new PixelMatrix(this->getWidth(),this->getHeight());
+    for(int i=0;i<pNew->getHeight();i++){
+      for(int j=0;j<pNew->getWidth();j++){
+          Pixel p = this->getPixel(j,i);
+          pNew->setPixel(pNew->getWidth()-j-1,i,p);
+      }
+    }
+    return pNew;
+}
+
+PixelMatrix* flipY(){
+    PixelMatrix *pNew = new PixelMatrix(this->getWidth(),this->getHeight());
+    for(int i=0;i<pNew->getHeight();i++){
+      for(int j=0;j<pNew->getWidth();j++){
+          Pixel p = this->getPixel(j,i);
+          pNew->setPixel(j,pNew->getHeight()-i-1,p);
+      }
+    }
+    return pNew;
+}
+
 PixelMatrix* zoom(){
     PixelMatrix *pNew = new PixelMatrix(this->getWidth()*2, this->getHeight()*2);
     for(int i=0;i<this->getHeight();i++){
@@ -65,6 +99,53 @@ PixelMatrix* zoom(){
         pPixelMatrix[matrixWidth*y+x].setG(p.getG());
         pPixelMatrix[matrixWidth*y+x].setB(p.getB());
         pPixelMatrix[matrixWidth*y+x].setA(p.getA());
+    }
+
+    void drawCircle(int x1, int y1, int r, Pixel p){
+        for(int i=0; i<r; i++){
+            int y = (int)sqrt(pow(r,2)-pow(i,2));
+            setPixel(x1+i, y1+y, p);
+            setPixel(x1+i, y1-y, p);
+            setPixel(x1-i, y1+y, p);
+            setPixel(x1-i, y1-y, p);
+            setPixel(x1+y, y1+i, p);
+            setPixel(x1+y, y1-i, p);
+            setPixel(x1-y, y1+i, p);
+            setPixel(x1-y, y1-i, p);
+        }
+    }
+
+    void drawLine(int x1, int y1, int x2, int y2, Pixel p){
+        if (abs(x2-x1)>abs(y2-y1)){
+            if (x2>x1){
+                for(int i=x1; i<x2; i++){
+                    float m = (y2*1.0-y1)/(x2-x1);
+                    setPixel(i, y1 + m*(i-x1), p);
+                }
+            }
+            else
+            {
+                for(int i=x2; i<x1; i++){
+                    float m = (y2*1.0-y1)/(x2-x1);
+                    setPixel(i, y1 + m*(i-x1), p);
+                }
+            }
+        }
+        else {
+            if (y2>y1) {
+                for(int j=y1; j<y2; j++){
+                    float m = (x2*1.0-x1)/(y2-y1);
+                    setPixel(x1 + m*(j-y1),j, p);
+                }
+            }
+            else {
+                for(int j=y2; j<y1; j++){
+                    float m = (x2*1.0-x1)/(y2-y1);
+                    setPixel(x1 + m*(j-y1),j, p);
+                }
+            }
+        }
+
     }
 
 

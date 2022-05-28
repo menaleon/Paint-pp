@@ -44,6 +44,14 @@ private slots:
 
     void on_actionRehacer_triggered();
 
+    void on_actionRotar_90_triggered();
+
+    void on_actionRectangulo_triggered();
+
+    void on_actionTriangulo_triggered();
+
+    void on_actionCirculo_triggered();
+
 private:
     Ui::MainWindow *ui;
     int anchoPointsToDraw[100];
