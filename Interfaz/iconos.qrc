@@ -13,5 +13,7 @@
         <file>imagenes/salir.png</file>
         <file>imagenes/triangulo.png</file>
         <file>imagenes/undo.png</file>
+        <file>imagenes/bucket.png</file>
+        <file>imagenes/lupa.png</file>
     </qresource>
 </RCC>
