@@ -4,6 +4,7 @@
 #include <PixelMatrix.h>
 #include <Pixel.h>
 #include <bmp.h>
+#include <QMouseEvent>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -37,11 +38,8 @@ void MainWindow::on_actionCrear_canvas_triggered()
 
 void MainWindow::on_boton_crear_clicked()
 {
-    //ui->label_canvas->clear();
-
     int ancho = ui->ancho->text().toInt();
     int alto = ui->alto->text().toInt();
-
     ui->label_alto->hide();
     ui->label_ancho->hide();
     ui->label_tamanio->hide();
@@ -50,14 +48,7 @@ void MainWindow::on_boton_crear_clicked()
     ui->alto->clear();
     ui->ancho->hide();
     ui->alto->hide();
-
-    //ui->label_canvas->show();
-    //ui->label_canvas->move(0,0);
-    //ui->label_canvas->resize(ancho,alto);
-    ui->label_canvas->setText("Soy un canvas (label gigante)");
-    ui->label_canvas->setStyleSheet("QLabel { background-color : lightblue; color : black; }");
     pMatrix = new PixelMatrix(ancho, alto);
-
     actualizar = true;
     undo = false;
     update();
@@ -95,7 +86,6 @@ void MainWindow::paintEvent(QPaintEvent *e)
         }
         ui->label_canvas->setPixmap(pix);
     }
-
 }
 
 void MainWindow::on_actionFiltro1_triggered()
@@ -175,7 +165,7 @@ void MainWindow::on_actionGuardar_bmp_triggered()
     bmp.write("/home/gabriel/Paintpp/sample.bmp");
 }
 
-void MainWindow::on_actionRotar_180_triggered()
+void MainWindow::on_actionZoom_triggered()
 {
     if (zoom == true) {
         zoom = false;
@@ -272,5 +262,181 @@ void MainWindow::on_actionCirculo_triggered()
         }
         pMatrix->drawCircle(x1,y1,r, *p);
         undo = false;
+    }
+}
+
+void MainWindow::on_actionFlip_X_triggered()
+{
+    if (pMatrix != NULL) {
+        pMatrixOld = pMatrix->clone();
+        pMatrix = pMatrix->flipX();
+        undo = false;
+    }
+}
+
+void MainWindow::on_actionFlip_Y_triggered()
+{
+    if (pMatrix != NULL) {
+        pMatrixOld = pMatrix->clone();
+        pMatrix = pMatrix->flipY();
+        undo = false;
+    }
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *e)
+{
+    if (pMatrix != NULL && ui->actionLapiz->isChecked()) {
+        int mouseX = e->x();
+        int mouseY = e->y();
+        qDebug()<<e->x()<<e->y();
+        Pixel *p = new Pixel(0,0,0,255);
+        int toolbarW = ui->mainToolBar->width();
+        int menuH = ui->menuBar->height();
+        pMatrix->setPixel(mouseX-toolbarW, mouseY-menuH, *p);
+        pMatrix->setPixel(mouseX-toolbarW+1, mouseY-menuH, *p);
+        pMatrix->setPixel(mouseX-toolbarW-1, mouseY-menuH, *p);
+        pMatrix->setPixel(mouseX-toolbarW-1, mouseY-menuH-1, *p);
+        pMatrix->setPixel(mouseX-toolbarW, mouseY-menuH-1, *p);
+        pMatrix->setPixel(mouseX-toolbarW+1, mouseY-menuH-1, *p);
+        pMatrix->setPixel(mouseX-toolbarW-1, mouseY-menuH+1, *p);
+        pMatrix->setPixel(mouseX-toolbarW, mouseY-menuH+1, *p);
+        pMatrix->setPixel(mouseX-toolbarW+1, mouseY-menuH+1, *p);
+    }
+    else if (pMatrix != NULL && ui->actionLapicero->isChecked()) {
+        int mouseX = e->x();
+        int mouseY = e->y();
+        Pixel *p = new Pixel(0,0,0,255);
+        int toolbarW = ui->mainToolBar->width();
+        int menuH = ui->menuBar->height();
+        if (lapiceroX1==0 && lapiceroY1==0){
+            lapiceroX1 = mouseX-toolbarW;
+            lapiceroY1 = mouseY-menuH;
+            pMatrix->setPixel(lapiceroX1, lapiceroY1, *p);
+        }
+        else
+        {
+            lapiceroX2 = mouseX-toolbarW;
+            lapiceroY2 = mouseY-menuH;
+            Pixel *p = new Pixel(0,0,0,255);
+            pMatrix->drawLine(lapiceroX1, lapiceroY1, lapiceroX2, lapiceroY2, *p);
+            lapiceroX1 = 0;
+            lapiceroY1 = 0;
+            lapiceroX2 = 0;
+            lapiceroY2 = 0;
+        }
+    }
+    else if (pMatrix != NULL && ui->actionBorrador->isChecked()) {
+        int mouseX = e->x();
+        int mouseY = e->y();
+        qDebug()<<e->x()<<e->y();
+        Pixel *p = new Pixel(255,255,255,255);
+        int toolbarW = ui->mainToolBar->width();
+        int menuH = ui->menuBar->height();
+        pMatrix->setPixel(mouseX-toolbarW, mouseY-menuH, *p);
+        pMatrix->setPixel(mouseX-toolbarW+1, mouseY-menuH, *p);
+        pMatrix->setPixel(mouseX-toolbarW-1, mouseY-menuH, *p);
+        pMatrix->setPixel(mouseX-toolbarW-1, mouseY-menuH-1, *p);
+        pMatrix->setPixel(mouseX-toolbarW, mouseY-menuH-1, *p);
+        pMatrix->setPixel(mouseX-toolbarW+1, mouseY-menuH-1, *p);
+        pMatrix->setPixel(mouseX-toolbarW-1, mouseY-menuH+1, *p);
+        pMatrix->setPixel(mouseX-toolbarW, mouseY-menuH+1, *p);
+        pMatrix->setPixel(mouseX-toolbarW+1, mouseY-menuH+1, *p);
+    }
+    else if (pMatrix != NULL && ui->actionFill->isChecked()) {
+        int mouseX = e->x();
+        int mouseY = e->y();
+        qDebug()<<e->x()<<e->y();
+        Pixel *p = new Pixel(0,255,0,255);
+        int toolbarW = ui->mainToolBar->width();
+        int menuH = ui->menuBar->height();
+        Pixel oldPixel = pMatrix->getPixel(mouseX-toolbarW, mouseY-menuH);
+        pMatrix->setPixelFill(mouseX-toolbarW, mouseY-menuH, *p, oldPixel);
+    }
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent *e)
+{
+    if (pMatrix != NULL && ui->actionLapiz->isChecked()) {
+        int mouseX = e->x();
+        int mouseY = e->y();
+        qDebug()<<e->x()<<e->y();
+        Pixel *p = new Pixel(0,0,0,255);
+        int toolbarW = ui->mainToolBar->width();
+        int menuH = ui->menuBar->height();
+        pMatrix->setPixel(mouseX-toolbarW, mouseY-menuH, *p);
+        pMatrix->setPixel(mouseX-toolbarW+1, mouseY-menuH, *p);
+        pMatrix->setPixel(mouseX-toolbarW-1, mouseY-menuH, *p);
+        pMatrix->setPixel(mouseX-toolbarW-1, mouseY-menuH-1, *p);
+        pMatrix->setPixel(mouseX-toolbarW, mouseY-menuH-1, *p);
+        pMatrix->setPixel(mouseX-toolbarW+1, mouseY-menuH-1, *p);
+        pMatrix->setPixel(mouseX-toolbarW-1, mouseY-menuH+1, *p);
+        pMatrix->setPixel(mouseX-toolbarW, mouseY-menuH+1, *p);
+        pMatrix->setPixel(mouseX-toolbarW+1, mouseY-menuH+1, *p);
+    }
+    else if (pMatrix != NULL && ui->actionBorrador->isChecked()) {
+        int mouseX = e->x();
+        int mouseY = e->y();
+        qDebug()<<e->x()<<e->y();
+        Pixel *p = new Pixel(255,255,255,255);
+        int toolbarW = ui->mainToolBar->width();
+        int menuH = ui->menuBar->height();
+        pMatrix->setPixel(mouseX-toolbarW, mouseY-menuH, *p);
+        pMatrix->setPixel(mouseX-toolbarW+1, mouseY-menuH, *p);
+        pMatrix->setPixel(mouseX-toolbarW-1, mouseY-menuH, *p);
+        pMatrix->setPixel(mouseX-toolbarW-1, mouseY-menuH-1, *p);
+        pMatrix->setPixel(mouseX-toolbarW, mouseY-menuH-1, *p);
+        pMatrix->setPixel(mouseX-toolbarW+1, mouseY-menuH-1, *p);
+        pMatrix->setPixel(mouseX-toolbarW-1, mouseY-menuH+1, *p);
+        pMatrix->setPixel(mouseX-toolbarW, mouseY-menuH+1, *p);
+        pMatrix->setPixel(mouseX-toolbarW+1, mouseY-menuH+1, *p);
+    }
+}
+
+void MainWindow::on_actionFiltro_Darker_triggered()
+{
+    if (pMatrix != NULL) {
+        pMatrixOld = pMatrix->clone();
+        pMatrix->applyDarkerFilter();
+        undo = false;
+    }
+}
+
+void MainWindow::on_actionLapiz_triggered()
+{
+    if(ui->actionLapiz->isChecked()){
+        if (pMatrix != NULL) {
+            pMatrixOld = pMatrix->clone();
+            undo = false;
+        }
+    }
+}
+
+void MainWindow::on_actionLapicero_triggered()
+{
+    if(ui->actionLapicero->isChecked()){
+        if (pMatrix != NULL) {
+            pMatrixOld = pMatrix->clone();
+            undo = false;
+        }
+    }
+}
+
+void MainWindow::on_actionBorrador_triggered()
+{
+    if(ui->actionBorrador->isChecked()){
+        if (pMatrix != NULL) {
+            pMatrixOld = pMatrix->clone();
+            undo = false;
+        }
+    }
+}
+
+void MainWindow::on_actionFill_triggered()
+{
+    if(ui->actionFill->isChecked()){
+        if (pMatrix != NULL) {
+            pMatrixOld = pMatrix->clone();
+            undo = false;
+        }
     }
 }

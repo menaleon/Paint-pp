@@ -20,7 +20,7 @@ PixelMatrix(int w, int h){
    pPixelMatrix =(Pixel*) malloc(w*h*sizeof(Pixel));
    for(int i=0;i<matrixHeight;i++){
      for(int j=0;j<matrixWidth;j++){
-         Pixel* p = new Pixel(255,0,0,255);
+         Pixel* p = new Pixel(255,255,255,255);
          setPixel(j,i,*p);
      }
    }
@@ -101,6 +101,25 @@ PixelMatrix* zoom(){
         pPixelMatrix[matrixWidth*y+x].setA(p.getA());
     }
 
+    void setPixelFill (int x, int y, Pixel p, Pixel base){
+        if (x<0 || x>matrixWidth || y<0 || y>matrixHeight){
+            return;
+        }
+        Pixel pixelActual = getPixel(x,y);
+        if (pixelActual.getR() == base.getR() && pixelActual.getG() == base.getG() &&
+            pixelActual.getB() == base.getB() && pixelActual.getA() == base.getA()){
+            setPixel(x, y, p);
+            setPixelFill(x-1,y,p,base);
+            setPixelFill(x+1,y,p,base);
+            setPixelFill(x,y-1,p,base);
+            setPixelFill(x-1,y-1,p,base);
+            setPixelFill(x+1,y-1,p,base);
+            setPixelFill(x,y+1,p,base);
+            setPixelFill(x-1,y+1,p,base);
+            setPixelFill(x+1,y+1,p,base);
+        }
+    }
+
     void drawCircle(int x1, int y1, int r, Pixel p){
         for(int i=0; i<r; i++){
             int y = (int)sqrt(pow(r,2)-pow(i,2));
@@ -121,6 +140,14 @@ PixelMatrix* zoom(){
                 for(int i=x1; i<x2; i++){
                     float m = (y2*1.0-y1)/(x2-x1);
                     setPixel(i, y1 + m*(i-x1), p);
+                    setPixel(i+1, y1 + m*(i-x1), p);
+                    setPixel(i-1, y1 + m*(i-x1), p);
+                    setPixel(i, y1 + m*(i-x1)-1, p);
+                    setPixel(i-1, y1 + m*(i-x1)-1, p);
+                    setPixel(i+1, y1 + m*(i-x1)-1, p);
+                    setPixel(i, y1 + m*(i-x1)+1, p);
+                    setPixel(i-1, y1 + m*(i-x1)+1, p);
+                    setPixel(i+1, y1 + m*(i-x1)+1, p);
                 }
             }
             else
@@ -128,6 +155,14 @@ PixelMatrix* zoom(){
                 for(int i=x2; i<x1; i++){
                     float m = (y2*1.0-y1)/(x2-x1);
                     setPixel(i, y1 + m*(i-x1), p);
+                    setPixel(i+1, y1 + m*(i-x1), p);
+                    setPixel(i-1, y1 + m*(i-x1), p);
+                    setPixel(i, y1 + m*(i-x1)-1, p);
+                    setPixel(i-1, y1 + m*(i-x1)-1, p);
+                    setPixel(i+1, y1 + m*(i-x1)-1, p);
+                    setPixel(i, y1 + m*(i-x1)+1, p);
+                    setPixel(i-1, y1 + m*(i-x1)+1, p);
+                    setPixel(i+1, y1 + m*(i-x1)+1, p);
                 }
             }
         }
@@ -136,12 +171,28 @@ PixelMatrix* zoom(){
                 for(int j=y1; j<y2; j++){
                     float m = (x2*1.0-x1)/(y2-y1);
                     setPixel(x1 + m*(j-y1),j, p);
+                    setPixel(x1 + m*(j-y1)+1,j, p);
+                    setPixel(x1 + m*(j-y1)-1,j, p);
+                    setPixel(x1 + m*(j-y1),j-1, p);
+                    setPixel(x1 + m*(j-y1)-1,j-1, p);
+                    setPixel(x1 + m*(j-y1)+1,j-1, p);
+                    setPixel(x1 + m*(j-y1),j+1, p);
+                    setPixel(x1 + m*(j-y1)-1,j+1, p);
+                    setPixel(x1 + m*(j-y1)+1,j+1, p);
                 }
             }
             else {
                 for(int j=y2; j<y1; j++){
                     float m = (x2*1.0-x1)/(y2-y1);
                     setPixel(x1 + m*(j-y1),j, p);
+                    setPixel(x1 + m*(j-y1)-1,j, p);
+                    setPixel(x1 + m*(j-y1)+1,j, p);
+                    setPixel(x1 + m*(j-y1),j-1, p);
+                    setPixel(x1 + m*(j-y1)-1,j-1, p);
+                    setPixel(x1 + m*(j-y1)+1,j-1, p);
+                    setPixel(x1 + m*(j-y1),j+1, p);
+                    setPixel(x1 + m*(j-y1)-1,j+1, p);
+                    setPixel(x1 + m*(j-y1)+1,j+1, p);
                 }
             }
         }
@@ -206,9 +257,9 @@ PixelMatrix* zoom(){
                 int R = p.getR();
                 int G = p.getG();
                 int B = p.getB();
-                int new_R = R - 3;
-                int new_G = G - 3;
-                int new_B = B - 3;
+                int new_R = R - 25;
+                int new_G = G - 25;
+                int new_B = B - 25;
                 if(new_R < 0){new_R = 0;}
                 if(new_G < 0){new_G = 0;}
                 if(new_B < 0){new_B = 0;}
@@ -218,7 +269,7 @@ PixelMatrix* zoom(){
         }
     }
 
-    void drawWithLapiz(int x, int y, int grosor, int colorR, int colorB, int colorG){
+    void drawWithLapiz(int x, int y, int colorR, int colorG, int colorB){
         for(int i =0;i<matrixHeight;i++){
             for(int j=0;j<matrixWidth;j++){
                 if(i==x && j==y){
