@@ -148,26 +148,36 @@
     <property name="title">
      <string>Filtros</string>
     </property>
-    <addaction name="actionFIltro1"/>
+    <addaction name="actionFiltro1"/>
     <addaction name="actionFiltro2"/>
     <addaction name="actionFiltro3"/>
+    <addaction name="actionFiltro_Darker"/>
+   </widget>
+   <widget class="QMenu" name="menuFlips">
+    <property name="title">
+     <string>Flips</string>
+    </property>
+    <addaction name="actionFlip_X"/>
+    <addaction name="actionFlip_Y"/>
    </widget>
    <addaction name="menuArchivo"/>
    <addaction name="menuFiguras"/>
    <addaction name="menuFiltros"/>
+   <addaction name="menuFlips"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
     <enum>LeftToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>false</bool>
+    <bool>true</bool>
    </attribute>
    <addaction name="actionLapiz"/>
    <addaction name="actionLapicero"/>
    <addaction name="actionBorrador"/>
+   <addaction name="actionFill"/>
    <addaction name="actionRotar_90"/>
-   <addaction name="actionRotar_180"/>
+   <addaction name="actionZoom"/>
    <addaction name="actionDeshacer"/>
    <addaction name="actionRehacer"/>
   </widget>
@@ -200,6 +210,9 @@
    </property>
   </action>
   <action name="actionLapiz">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="iconos.qrc">
      <normaloff>:/iconos/imagenes/lapiz.png</normaloff>:/iconos/imagenes/lapiz.png</iconset>
@@ -209,6 +222,9 @@
    </property>
   </action>
   <action name="actionLapicero">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="iconos.qrc">
      <normaloff>:/iconos/imagenes/lapicero.png</normaloff>:/iconos/imagenes/lapicero.png</iconset>
@@ -218,6 +234,9 @@
    </property>
   </action>
   <action name="actionBorrador">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="iconos.qrc">
      <normaloff>:/iconos/imagenes/borrador.png</normaloff>:/iconos/imagenes/borrador.png</iconset>
@@ -235,13 +254,13 @@
     <string>Rotar 90</string>
    </property>
   </action>
-  <action name="actionRotar_180">
+  <action name="actionZoom">
    <property name="icon">
     <iconset resource="iconos.qrc">
-     <normaloff>:/iconos/imagenes/rotar180.png</normaloff>:/iconos/imagenes/rotar180.png</iconset>
+     <normaloff>:/iconos/imagenes/lupa.png</normaloff>:/iconos/imagenes/lupa.png</iconset>
    </property>
    <property name="text">
-    <string>Rotar 180</string>
+    <string>Zoom</string>
    </property>
   </action>
   <action name="actionDeshacer">
@@ -285,19 +304,49 @@
     <string>Rectangulo</string>
    </property>
   </action>
-  <action name="actionFIltro1">
+  <action name="actionFiltro1">
    <property name="text">
-    <string>FIltro1</string>
+    <string>Filtro Negativo</string>
+   </property>
+   <property name="toolTip">
+    <string>Filtro1</string>
    </property>
   </action>
   <action name="actionFiltro2">
    <property name="text">
-    <string>Filtro2</string>
+    <string>Filtro Grises</string>
    </property>
   </action>
   <action name="actionFiltro3">
    <property name="text">
-    <string>Filtro3</string>
+    <string>Filtro Sepia</string>
+   </property>
+  </action>
+  <action name="actionFlip_X">
+   <property name="text">
+    <string>Flip X</string>
+   </property>
+  </action>
+  <action name="actionFlip_Y">
+   <property name="text">
+    <string>Flip Y</string>
+   </property>
+  </action>
+  <action name="actionFill">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="iconos.qrc">
+     <normaloff>:/iconos/imagenes/bucket.png</normaloff>:/iconos/imagenes/bucket.png</iconset>
+   </property>
+   <property name="text">
+    <string>Fill</string>
+   </property>
+  </action>
+  <action name="actionFiltro_Darker">
+   <property name="text">
+    <string>Filtro Darker</string>
    </property>
   </action>
  </widget>
